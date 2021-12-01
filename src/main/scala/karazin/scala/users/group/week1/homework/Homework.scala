@@ -42,17 +42,17 @@ object Homework :
 
     def not(b: Boolean): Boolean = b match {
       case true => false
-      case _ => true
+      case _    => true
     }
 
-    def and(left: Boolean, right: Boolean): Boolean = (left, right) match {
-      case (true, true) => true
-      case _ => false
+    def and(left: => Boolean, right: => Boolean): Boolean = left match {
+      case true => right
+      case _    => false
     }
 
-    def or(left: Boolean, right: Boolean): Boolean = (left, right) match {
-      case (false, false) => false
-      case _ => true
+    def or(left: => Boolean, right: => Boolean): Boolean = left match {
+      case false => right
+      case _     => true
     }
 
   end `Boolean Operators`
