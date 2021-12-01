@@ -33,6 +33,10 @@ object HomeworkSpecification extends Properties("Homework"):
     (left == right) == (left.numer == right.numer && left.denom == right.denom)
   }
 
+  property("conversion do double") = forAll { (rational: Rational) =>
+    rational.getDouble == rational.numer.toDouble / rational.denom
+  }
+
   property("less then") = forAll { (left: Rational, right: Rational) =>
     (left < right) == (left.numer * right.denom < right.numer * left.denom)
   }
@@ -50,28 +54,31 @@ object HomeworkSpecification extends Properties("Homework"):
   }
 
   property("negation") = forAll { (rational: Rational) =>
-    ???
+    rational.unary_- == Rational(-rational.numer, rational.denom) 
   }
 
   property("addition") = forAll { (left: Rational, right: Rational) =>
-    ???
+    doubleFormat((left + right).getDouble) == doubleFormat(left.getDouble + right.getDouble)
   }
 
   property("subtraction") = forAll { (left: Rational, right: Rational) =>
-    ???
+    doubleFormat((left - right).getDouble) == doubleFormat(left.getDouble - right.getDouble)
   }
 
   property("multiplication") = forAll { (left: Rational, right: Rational) =>
-    ???
+    doubleFormat((left * right).getDouble) == doubleFormat(left.getDouble * right.getDouble)
   }
 
   property("division") = forAll { (left: Rational, numer: Int, denom: Int) =>
     val right = Rational(if numer == 0 then 1 else numer, abs(denom) + 1)
-    ???
+    
+    doubleFormat((left / right).getDouble) == doubleFormat(left.getDouble / right.getDouble)
   }
 
   property("division by zero") = forAll { (left: Rational, int: Int) =>
-    ???
+    throws(classOf[IllegalArgumentException]) {
+      left / Rational(0, int)
+    }
   }
 
 end HomeworkSpecification
