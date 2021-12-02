@@ -25,12 +25,12 @@ object Homework:
     def isZero: Boolean = true
     def predecessor: Nat = throw new Exception("0 doesn't have a predecessor")
     
-    infix def +(that: Nat): Nat = ???
+    infix def +(that: Nat): Nat = that
     
-    infix def -(that: Nat): Nat = ???
+    infix def -(that: Nat): Nat = 
     
     // Optional task
-    def toInt: Int = ???
+    def toInt: Int = 0
 
     override def toString: String = "Zero"
     override def equals(obj: Any): Boolean = ???
