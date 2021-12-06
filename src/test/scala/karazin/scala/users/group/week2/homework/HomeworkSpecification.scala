@@ -34,7 +34,7 @@ object HomeworkSpecification extends Properties("Homework"):
   }
 
   property("conversion do double") = forAll { (rational: Rational) =>
-    rational.getDouble == rational.numer.toDouble / rational.denom
+    rational.toDouble == rational.numer.toDouble / rational.denom
   }
 
   property("less then") = forAll { (left: Rational, right: Rational) =>
@@ -58,21 +58,21 @@ object HomeworkSpecification extends Properties("Homework"):
   }
 
   property("addition") = forAll { (left: Rational, right: Rational) =>
-    doubleFormat((left + right).getDouble) == doubleFormat(left.getDouble + right.getDouble)
+    doubleFormat((left + right).toDouble) == doubleFormat(left.toDouble + right.toDouble)
   }
 
   property("subtraction") = forAll { (left: Rational, right: Rational) =>
-    doubleFormat((left - right).getDouble) == doubleFormat(left.getDouble - right.getDouble)
+    doubleFormat((left - right).toDouble) == doubleFormat(left.toDouble - right.toDouble)
   }
 
   property("multiplication") = forAll { (left: Rational, right: Rational) =>
-    doubleFormat((left * right).getDouble) == doubleFormat(left.getDouble * right.getDouble)
+    doubleFormat((left * right).toDouble) == doubleFormat(left.toDouble * right.toDouble)
   }
 
   property("division") = forAll { (left: Rational, numer: Int, denom: Int) =>
     val right = Rational(if numer == 0 then 1 else numer, abs(denom) + 1)
     
-    doubleFormat((left / right).getDouble) == doubleFormat(left.getDouble / right.getDouble)
+    doubleFormat((left / right).toDouble) == doubleFormat(left.toDouble / right.toDouble)
   }
 
   property("division by zero") = forAll { (left: Rational, int: Int) =>

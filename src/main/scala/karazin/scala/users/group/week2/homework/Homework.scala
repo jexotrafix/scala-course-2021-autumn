@@ -65,7 +65,7 @@ object Homework:
 
     override def toString: String = s"${this.numer}/${this.denom}"
 
-    def getDouble: Double = this.numer.toDouble / this.denom
+    def toDouble: Double = this.numer.toDouble / this.denom
 
     private def gcd(a: Int, b: Int): Int =
       if b == 0 then a else gcd(b, a % b)
