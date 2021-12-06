@@ -26,11 +26,25 @@ object BooleanOperatorsSpecification extends Properties("Boolean Operators"):
     and(left, right) == (left && right)
   }
 
+  property("lazy and") = forAll { (bool: Boolean) =>
+    if (bool) then throws(classOf[Exception]) {
+      and(bool, throw new Exception())
+    }
+    else and(bool, throw new Exception()) == false
+  }
+
   property("or") = forAll { (pair: (Boolean, Boolean)) =>
     val (left, right) = pair
     
     or(left, right) == (left || right)
   }   
+
+  property("lazy or") = forAll { (bool: Boolean) =>
+    if (!bool) then throws(classOf[Exception]) {
+      or(bool, throw new Exception())
+    }
+    else or(bool, throw new Exception()) == true
+  }
 
 end BooleanOperatorsSpecification
 
