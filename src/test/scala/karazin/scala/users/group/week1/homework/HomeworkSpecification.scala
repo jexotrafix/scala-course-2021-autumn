@@ -1,7 +1,7 @@
 package karazin.scala.users.group.week1.homework
 
 import org.scalacheck._
-import Prop.{forAll, propBoolean}
+import Prop.{forAll, propBoolean, throws}
 import Homework._
 import karazin.scala.users.group.week1.homework.arbitraries
 
