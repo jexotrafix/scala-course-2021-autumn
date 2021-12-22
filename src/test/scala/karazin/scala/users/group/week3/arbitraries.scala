@@ -16,4 +16,6 @@ object arbitraries:
   given Arbitrary[Zero] = Arbitrary(zero)
   given Arbitrary[Succ] = Arbitrary(succ())
   given Arbitrary[Nat] = Arbitrary(nat)
+
+  given Arbitrary[Int] = Arbitrary(Gen.choose[Int](min = 0, max = 1000))
   
