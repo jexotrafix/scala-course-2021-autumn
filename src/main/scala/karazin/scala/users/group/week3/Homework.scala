@@ -22,7 +22,7 @@ object Homework:
 
       @tailrec
       def inner(int: Int, acc: Nat): Nat = int match {
-        case 0 => Zero
+        case 0 => acc
         case _ => inner(int - 1, Succ(acc))
       }
 
@@ -56,14 +56,24 @@ object Homework:
     def isZero: Boolean = false
     def predecessor: Nat = n
     
-    infix def +(that: Nat): Nat = that match {
-      case z: Zero => this
-      case _       => Succ(this.predecessor) + that.predecessor
+    infix def +(that: Nat): Nat = {
+      @tailrec
+      def inner(nat: Nat, acc: Nat): Nat = nat match {
+        case z: Zero => acc
+        case _       => inner(nat.predecessor, Succ(acc))
+      }
+
+      inner(that, this)
     }
     
-    infix def -(that: Nat): Nat = that match {
-      case z: Zero => this
-      case _       => this.predecessor - that.predecessor
+    infix def -(that: Nat): Nat = {
+      @tailrec
+      def inner(nat: Nat, acc: Nat): Nat = nat match {
+        case z: Zero => acc
+        case _       => inner(nat.predecessor, acc.predecessor)
+      }
+
+      inner(that, this)
     }
     
     // Optional task
