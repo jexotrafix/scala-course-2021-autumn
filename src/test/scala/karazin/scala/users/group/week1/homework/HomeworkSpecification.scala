@@ -1,7 +1,7 @@
 package karazin.scala.users.group.week1.homework
 
 import org.scalacheck._
-import Prop.{forAll, propBoolean, throws}
+import Prop.{forAll, propBoolean}
 import Homework._
 import karazin.scala.users.group.week1.homework.arbitraries
 
@@ -26,11 +26,8 @@ object BooleanOperatorsSpecification extends Properties("Boolean Operators"):
     and(left, right) == (left && right)
   }
 
-  property("lazy and") = forAll { (bool: Boolean) =>
-    if (bool) then throws(classOf[Exception]) {
-      and(bool, throw new Exception())
-    }
-    else and(bool, throw new Exception()) == false
+  property("lazy and") = propBoolean { 
+    and(false, throw new Exception()) == false
   }
 
   property("or") = forAll { (pair: (Boolean, Boolean)) =>
@@ -39,11 +36,8 @@ object BooleanOperatorsSpecification extends Properties("Boolean Operators"):
     or(left, right) == (left || right)
   }   
 
-  property("lazy or") = forAll { (bool: Boolean) =>
-    if (!bool) then throws(classOf[Exception]) {
-      or(bool, throw new Exception())
-    }
-    else or(bool, throw new Exception()) == true
+  property("lazy or") = propBoolean { 
+    or(true, throw new Exception()) == true
   }
 
 end BooleanOperatorsSpecification
