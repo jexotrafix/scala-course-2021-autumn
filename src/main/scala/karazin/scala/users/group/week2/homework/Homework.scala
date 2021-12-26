@@ -46,7 +46,7 @@ object Homework:
 
     @targetName("substraction")
     infix def -(that: Rational): Rational = 
-      this + that.unary_-
+      this + (-that)
 
     @targetName("multiplication")
     infix def *(that: Rational): Rational = 
@@ -82,6 +82,11 @@ object Homework:
       case _                  => false
     }
 
+    override def hashCode: Int = {
+      val prime = 61
+      prime * (prime + numer.hashCode) + denom.hashCode
+    }
+    
   end Rational
 
 end Homework

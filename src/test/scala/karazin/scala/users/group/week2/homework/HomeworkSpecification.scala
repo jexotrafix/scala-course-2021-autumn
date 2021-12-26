@@ -54,25 +54,38 @@ object HomeworkSpecification extends Properties("Homework"):
   }
 
   property("negation") = forAll { (rational: Rational) =>
-    rational.unary_- == Rational(-rational.numer, rational.denom) 
+    rational.unary_-.numer == -rational.numer
   }
 
   property("addition") = forAll { (left: Rational, right: Rational) =>
-    doubleFormat((left + right).toDouble) == doubleFormat(left.toDouble + right.toDouble)
+    val expected = Rational(left.numer * right.denom + right.numer * left.denom, left.denom * right.denom)
+    (left + right).numer == expected.numer
+    (left + right).denom == expected.denom
   }
 
   property("subtraction") = forAll { (left: Rational, right: Rational) =>
-    doubleFormat((left - right).toDouble) == doubleFormat(left.toDouble - right.toDouble)
+    val expected = Rational(left.numer * right.denom - right.numer * left.denom, left.denom * right.denom)
+    (left - right).numer == expected.numer
+    (left - right).denom == expected.denom
   }
 
   property("multiplication") = forAll { (left: Rational, right: Rational) =>
-    doubleFormat((left * right).toDouble) == doubleFormat(left.toDouble * right.toDouble)
+    val expected = Rational(left.numer * right.numer, left.denom * right.denom)
+    (left * right).numer == expected.numer
+    (left * right).denom == expected.denom
   }
 
   property("division") = forAll { (left: Rational, numer: Int, denom: Int) =>
     val right = Rational(if numer == 0 then 1 else numer, abs(denom) + 1)
-    
-    doubleFormat((left / right).toDouble) == doubleFormat(left.toDouble / right.toDouble)
+
+    if numer < 0 then throws(classOf[IllegalArgumentException]) {
+      Rational(left.numer * right.denom, left.denom * right.numer)
+    }
+    else 
+      val expected = Rational(left.numer * right.denom, left.denom * right.numer)
+
+      (left / right).numer == expected.numer
+      (left / right).denom == expected.denom
   }
 
   property("division by zero") = forAll { (left: Rational, int: Int) =>
