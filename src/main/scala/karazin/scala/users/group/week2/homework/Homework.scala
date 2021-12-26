@@ -34,29 +34,59 @@ object Homework:
       !(this < that)
 
     @targetName("addition")
-    infix def +(that: Rational): Rational = ???
+    infix def +(that: Rational): Rational = {
+      val l = lcd(this.denom, that.denom)
+
+      Rational(this.numer * (l / this.denom) + that.numer * (l / that.denom), l)
+    }
 
     @targetName("negation")
-    infix def unary_- : Rational = ???
+    infix def unary_- : Rational = 
+      Rational(-this.numer, this.denom)
 
     @targetName("substraction")
-    infix def -(that: Rational): Rational = ???
+    infix def -(that: Rational): Rational = 
+      this + (-that)
 
     @targetName("multiplication")
-    infix def *(that: Rational): Rational = ???
+    infix def *(that: Rational): Rational = 
+      Rational(this.numer * that.numer, this.denom * that.denom)
 
-    @targetName("devision")
-    infix def /(that: Rational): Rational = ???
+    @targetName("division")
+    infix def /(that: Rational): Rational = {
+      require(that.numer != 0, "Division by zero will be caused")
+
+      val resNumer = this.numer * that.denom
+      val resDenom = this.denom * that.numer
+
+      if (resDenom < 0) Rational(-resNumer, abs(resDenom))
+      else Rational(resNumer, resDenom)
+    }
 
     override def toString: String = s"${this.numer}/${this.denom}"
+
+    def toDouble: Double = this.numer.toDouble / this.denom
 
     private def gcd(a: Int, b: Int): Int =
       if b == 0 then a else gcd(b, a % b)
 
     private lazy val g = gcd(abs(x), y)
 
-    override def equals(other: Any): Boolean = ???
+    // lcd for denominators which are always greater than zero
+    // so no need to use abs()
+    private def lcd(a: Int, b: Int): Int = 
+      (a * b) / gcd(a, b)
 
+    override def equals(other: Any): Boolean = other match {
+      case rational: Rational => (this.numer == rational.numer) && (this.denom == rational.denom)
+      case _                  => false
+    }
+
+    override def hashCode: Int = {
+      val prime = 61
+      prime * (prime + numer.hashCode) + denom.hashCode
+    }
+    
   end Rational
 
 end Homework
